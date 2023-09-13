@@ -20,7 +20,7 @@
     {% else %}
         <!-- <h2>Amount of movies: {{movies|length}}</h2> -->
         {% for movie in movies%}
-        <div class="card" style="width: 30rem;">
+        <div class="card" style="width: 32rem;">
             <div class="card-body">
                 <img src="/media/{{movie.poster}}" alt="poster" class="movie-poster">
                 <div class="row">
@@ -28,12 +28,22 @@
                         <h5 class="card-title">{{ movie }}</h5>
                     </div>
                     <div class="col-3">
+                        <a href="{% url 'rate_movie' movie.id %}"><i class="fa-regular fa-star"></i></a>
                         <a href="{% url 'edit_movie' movie.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
                         <a href="{% url 'delete_movie' movie.id %}"><i class="fa-solid fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="row">
                     <p class="card-text">{{ movie.description }}</p>
+                    <hr>
+                    <ul class="list-group list-group-flush">
+                        {% for actor in movie.actors.all %}
+                        <li class="list-group-item">{{ actor }}</li>
+                        {% endfor %}
+
+                    </ul>
+                    
+
                 </div>
 
           </div>

@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+{% load bootstrap %}
+{% block title %} Rate the movie{% endblock %}
+
+{% block page %}
+    <div class="card" style="width: 28rem;">
+        <div class="card-body">
+            <h5 class="card-title">Rate the movie!</h5>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form_rating|bootstrap }}
+                <button type="submit" class="btn btn-primary"><i class="fa-regular fa-circle-check"></i> Rate</button>  
+                <a href="{% url 'all_movies' %}" class="btn btn-secondary">Go back</a>              
+            </form>
+        </div>
+    </div>
+    <div class="card" style="width: 28rem;">
+        <div class="card-body">
+            {% for rating in ratings %}
+                <h8>Stars: {{rating.stars}}<i class="fa-regular fa-star"></i></h8>
+                <p>Review: {{rating.review}}</p>
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

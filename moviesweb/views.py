@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from .models import Movie, MoreInfo,MovieRating
+from .models import Movie, MoreInfo,MovieRating, Actor
 from .forms import MovieForm, MoreInfoForm, MovieRatingForm
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
@@ -17,7 +17,8 @@ class MovieView(viewsets.ModelViewSet):
 
 def all_movies(request):
     all = Movie.objects.all()
-    return render(request, 'movies.html',{'movies':all})
+    actors = Actor.objects.all()
+    return render(request, 'movies.html',{'movies':all,'actors':actors})
 
 @login_required
 def new_movie(request):
@@ -70,3 +71,17 @@ def delete_movie(request, id):
         return redirect(all_movies)
     
     return render(request,'confirm.html',{'movie':movie})
+
+@login_required
+def rate_movie(request, id):
+    movie = get_object_or_404(Movie, pk=id)
+    ratings = MovieRating.objects.filter(movie=movie)
+    form_rating = MovieRatingForm(request.POST or None)
+
+    if request.method== 'POST':
+        if 'stars' in request.POST:
+            rating = form_rating.save(commit=False)
+            rating.movie = movie
+            rating.save()
+
+    return render(request,'rate_form.html',{'ratings':ratings,'form_rating':form_rating})

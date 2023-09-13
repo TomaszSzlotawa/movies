@@ -25,27 +25,5 @@
             </form>
         
         </div>
-      </div>
-
-      <div class="card" style="width: 28rem;">
-        <div class="card-body">
-            <h5 class="card-title">Rate the movie!</h5>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form_rating|bootstrap }}
-                <button type="submit" class="btn btn-primary">Rate</button>                
-            </form>
-        
-        </div>
-      </div>
-
-      {% for rating in ratings %}
-      <h4>Stars: {{rating.stars}}</h4>
-      <h4>Review: {{rating.review}}</h4>
-      {% endfor %}
-      {% for actor in actors %}
-      <h4>{{actor}}</h4>
-      {% endfor %}
-      
-
+    </div>
 {% endblock %}
